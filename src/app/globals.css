@@ -332,6 +332,20 @@ nav {
 }
 .feature-desc { font-size: 14px; font-weight: 600; color: var(--text-muted); line-height: 1.7; }
 
+/* Mobile responsive for features - vertical layout */
+@media (max-width: 768px) {
+  .feature-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 28px 20px;
+  }
+  .feature-icon-wrap {
+    margin-bottom: 12px;
+  }
+  .feature-card.wide { grid-column: span 1; }
+}
+
 /* ── MAP SECTION ── */
 .map-section {
   background: linear-gradient(135deg, var(--text-main) 0%, #5C3D2E 100%);
@@ -357,6 +371,23 @@ nav {
 .map-pin-name { font-family: var(--display); font-size: 16px; font-weight: 700; color: white; }
 .map-pin-count { font-size: 13px; font-weight: 600; color: var(--text-soft); margin-top: 2px; }
 
+/* Mobile responsive for city pins - smaller text */
+@media (max-width: 768px) {
+  .map-pin-card {
+    padding: 14px 18px;
+    gap: 10px;
+  }
+  .map-pin-name {
+    font-size: 13px;
+  }
+  .map-pin-count {
+    font-size: 11px;
+  }
+  .pin-circle {
+    width: 10px; height: 10px;
+  }
+}
+
 /* ── TESTIMONIALS ── */
 .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .testimonial-card {
@@ -376,6 +407,49 @@ nav {
 }
 .author-name { font-size: 14px; font-weight: 700; color: var(--text-main); }
 .author-pet { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+
+/* Testimonials Carousel Styles */
+.testimonials-carousel {
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.6s ease-in-out;
+}
+.carousel-slide {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+.carousel-slide .testimonial-card {
+  max-width: 500px;
+  width: 100%;
+}
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+.carousel-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--blush);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.carousel-dot.active {
+  background: var(--accent-pink);
+  width: 28px;
+  border-radius: 5px;
+}
+.carousel-dot:hover {
+  background: var(--accent-pink);
+}
 
 /* ── CTA SECTION ── */
 .cta-section {
@@ -454,6 +528,14 @@ footer {
   .footer-top { grid-template-columns: 1fr 1fr; }
   .cta-section { padding: 72px 20px; }
   .map-section { padding: 72px 20px; }
+  
+  /* Hide testimonials grid on mobile, show carousel */
+  .testimonials-grid {
+    display: none;
+  }
+  .testimonials-carousel {
+    display: block !important;
+  }
 }
 
 /* ── CITY TABS ── */
@@ -462,6 +544,7 @@ footer {
   background: rgba(255,255,255,0.08); color: var(--text-soft);
   font-family: var(--body); font-size: 14px; font-weight: 700;
   cursor: pointer; transition: all 0.25s;
+  white-space: nowrap;
 }
 .city-tab:hover { background: rgba(255,255,255,0.15); color: white; }
 .city-tab.active {
@@ -470,3 +553,22 @@ footer {
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 .city-pins { animation: fadeUp 0.4s ease both; }
+
+/* Mobile: Horizontal scroll for city tabs */
+@media (max-width: 768px) {
+  .city-tabs-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0 20px;
+    justify-content: flex-start !important;
+  }
+  .city-tabs-container::-webkit-scrollbar {
+    display: none;
+  }
+  .city-tab {
+    padding: 8px 18px;
+    font-size: 13px;
+  }
+}

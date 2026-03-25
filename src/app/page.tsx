@@ -1,10 +1,103 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+
+// Counter animation component
+function Counter({ end, suffix = "", duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const counterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        
+        if (entry.isIntersecting) {
+          // Reset count to 0
+          setCount(0);
+          
+          const startTime = Date.now();
+          const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function (ease-out-quart)
+            const easeOut = 1 - Math.pow(1 - progress, 4);
+            
+            setCount(Math.floor(easeOut * end));
+            
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            }
+          };
+          
+          requestAnimationFrame(animate);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [end, duration]);
+
+  // Format number with k suffix for thousands
+  const displayValue = count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count;
+
+  return (
+    <div ref={counterRef}>
+      <div className="stat-num">{displayValue}{suffix}</div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [activeCity, setActiveCity] = useState<"isb" | "khi" | "lhr">("isb");
   const [scrolled, setScrolled] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Testimonials data
+  const testimonials = [
+    {
+      stars: "★★★★★",
+      text: "\"My German Shepherd Bruno had zero friends. Within a week on Snifr he had three regular playdate partners at F9. Genuinely life changing.\"",
+      avatar: "👩",
+      avatarBg: "#FFE8D0",
+      name: "Sara Ahmed",
+      pet: "Bruno's human · F-7, Islamabad",
+    },
+    {
+      stars: "★★★★★",
+      text: "\"The Live Map alone is worth it. I open Snifr before heading to Clifton Beach and know exactly which dogs are there. Perfect for my Labrador Coco.\"",
+      avatar: "👨",
+      avatarBg: "#E8DEFF",
+      name: "Usman Malik",
+      pet: "Coco's dad · DHA, Karachi",
+    },
+    {
+      stars: "★★★★★",
+      text: "\"Found three Golden Retriever owners near Jilani Park within days. Now we do weekend group walks every Sunday. Snifr is huge in Lahore already.\"",
+      avatar: "👩",
+      avatarBg: "#D4F5E9",
+      name: "Amna Riaz",
+      pet: "Mochi's mum · DHA, Lahore",
+    },
+  ];
+
+  // Autoplay carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % testimonials.length);
+    }, 1200);
+    return () => clearInterval(interval);
+  }, [testimonials.length]);
+
+  const goToSlide = useCallback((index: number) => {
+    setCurrentSlide(index);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,15 +159,15 @@ export default function Home() {
             </div>
             <div className="hero-stats">
               <div className="stat-item">
-                <div className="stat-num">2.4k+</div>
+                <Counter end={2400} suffix="k+" />
                 <div className="stat-label">Pets registered</div>
               </div>
               <div className="stat-item">
-                <div className="stat-num">840+</div>
+                <Counter end={840} suffix="+" />
                 <div className="stat-label">Playdates booked</div>
               </div>
               <div className="stat-item">
-                <div className="stat-num">12+</div>
+                <Counter end={12} suffix="+" />
                 <div className="stat-label">Parks covered</div>
               </div>
             </div>
@@ -317,13 +410,12 @@ export default function Home() {
           </p>
 
           {/* City tabs */}
-          <div
+          <div className="city-tabs-container"
             style={{
               display: "flex",
               justifyContent: "center",
               gap: "10px",
               marginBottom: "36px",
-              flexWrap: "wrap",
             }}
           >
             <button
@@ -501,6 +593,8 @@ export default function Home() {
             Real stories from Islamabad pet owners who found their pet&apos;s
             best friends on Snifr.
           </p>
+          
+          {/* Desktop: Grid Layout */}
           <div className="testimonials-grid">
             <div className="testimonial-card">
               <div className="testimonial-stars">★★★★★</div>
@@ -567,6 +661,45 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Mobile: Carousel */}
+          <div className="testimonials-carousel" style={{ display: 'none' }}>
+            <div
+              className="carousel-track"
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="carousel-slide">
+                  <div className="testimonial-card">
+                    <div className="testimonial-stars">{testimonial.stars}</div>
+                    <p className="testimonial-text">{testimonial.text}</p>
+                    <div className="testimonial-author">
+                      <div
+                        className="author-avatar"
+                        style={{ background: testimonial.avatarBg }}
+                      >
+                        {testimonial.avatar}
+                      </div>
+                      <div>
+                        <div className="author-name">{testimonial.name}</div>
+                        <div className="author-pet">{testimonial.pet}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="carousel-dots">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  className={`carousel-dot ${currentSlide === index ? 'active' : ''}`}
+                  onClick={() => goToSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>
