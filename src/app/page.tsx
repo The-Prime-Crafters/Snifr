@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
 
 // Counter animation component
 function Counter({ end, suffix = "", duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
@@ -57,7 +58,6 @@ function Counter({ end, suffix = "", duration = 2000 }: { end: number; suffix?: 
 export default function Home() {
   const [activeCity, setActiveCity] = useState<"isb" | "khi" | "lhr">("isb");
   const [scrolled, setScrolled] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Testimonials data
   const testimonials = [
@@ -85,19 +85,23 @@ export default function Home() {
       name: "Amna Riaz",
       pet: "Mochi's mum · DHA, Lahore",
     },
+    {
+      stars: "★★★★★",
+      text: "\"The Live Map alone is worth it. I open Snifr before heading to Clifton Beach and know exactly which dogs are there. Perfect for my Labrador Coco.\"",
+      avatar: "👨",
+      avatarBg: "#E8DEFF",
+      name: "Usman Malik",
+      pet: "Coco's dad · DHA, Karachi",
+    },
+    {
+      stars: "★★★★★",
+      text: "\"Found three Golden Retriever owners near Jilani Park within days. Now we do weekend group walks every Sunday. Snifr is huge in Lahore already.\"",
+      avatar: "👩",
+      avatarBg: "#D4F5E9",
+      name: "Amna Riaz",
+      pet: "Mochi's mum · DHA, Lahore",
+    },
   ];
-
-  // Autoplay carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % testimonials.length);
-    }, 1200);
-    return () => clearInterval(interval);
-  }, [testimonials.length]);
-
-  const goToSlide = useCallback((index: number) => {
-    setCurrentSlide(index);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -593,115 +597,9 @@ export default function Home() {
             Real stories from Islamabad pet owners who found their pet&apos;s
             best friends on Snifr.
           </p>
-          
-          {/* Desktop: Grid Layout */}
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <div className="testimonial-stars">★★★★★</div>
-              <p className="testimonial-text">
-                &quot;My German Shepherd Bruno had zero friends. Within a week on
-                Snifr he had three regular playdate partners at F9. Genuinely
-                life changing.&quot;
-              </p>
-              <div className="testimonial-author">
-                <div
-                  className="author-avatar"
-                  style={{ background: "#FFE8D0" }}
-                >
-                  👩
-                </div>
-                <div>
-                  <div className="author-name">Sara Ahmed</div>
-                  <div className="author-pet">
-                    Bruno&apos;s human · F-7, Islamabad
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card">
-              <div className="testimonial-stars">★★★★★</div>
-              <p className="testimonial-text">
-                &quot;The Live Map alone is worth it. I open Snifr before heading
-                to Clifton Beach and know exactly which dogs are there. Perfect
-                for my Labrador Coco.&quot;
-              </p>
-              <div className="testimonial-author">
-                <div
-                  className="author-avatar"
-                  style={{ background: "#E8DEFF" }}
-                >
-                  👨
-                </div>
-                <div>
-                  <div className="author-name">Usman Malik</div>
-                  <div className="author-pet">
-                    Coco&apos;s dad · DHA, Karachi
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card">
-              <div className="testimonial-stars">★★★★★</div>
-              <p className="testimonial-text">
-                &quot;Found three Golden Retriever owners near Jilani Park within
-                days. Now we do weekend group walks every Sunday. Snifr is huge
-                in Lahore already.&quot;
-              </p>
-              <div className="testimonial-author">
-                <div
-                  className="author-avatar"
-                  style={{ background: "#D4F5E9" }}
-                >
-                  👩
-                </div>
-                <div>
-                  <div className="author-name">Amna Riaz</div>
-                  <div className="author-pet">
-                    Mochi&apos;s mum · DHA, Lahore
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Mobile: Carousel */}
-          <div className="testimonials-carousel" style={{ display: 'none' }}>
-            <div
-              className="carousel-track"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-            >
-              {testimonials.map((testimonial, index) => (
-                <div key={index} className="carousel-slide">
-                  <div className="testimonial-card">
-                    <div className="testimonial-stars">{testimonial.stars}</div>
-                    <p className="testimonial-text">{testimonial.text}</p>
-                    <div className="testimonial-author">
-                      <div
-                        className="author-avatar"
-                        style={{ background: testimonial.avatarBg }}
-                      >
-                        {testimonial.avatar}
-                      </div>
-                      <div>
-                        <div className="author-name">{testimonial.name}</div>
-                        <div className="author-pet">{testimonial.pet}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="carousel-dots">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  className={`carousel-dot ${currentSlide === index ? 'active' : ''}`}
-                  onClick={() => goToSlide(index)}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
+          {/* Carousel with Embla */}
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
       </section>
 

@@ -414,25 +414,28 @@ nav {
 .author-name { font-size: 14px; font-weight: 700; color: var(--text-main); }
 .author-pet { font-size: 12px; font-weight: 600; color: var(--text-muted); }
 
-/* Testimonials Carousel Styles */
-.testimonials-carousel {
+/* Testimonials Carousel Styles (Embla) */
+.testimonial-carousel-wrapper {
   position: relative;
   overflow: hidden;
-  max-width: 100%;
 }
-.carousel-track {
+.embla {
+  overflow: hidden;
+}
+.embla__container {
   display: flex;
-  transition: transform 0.6s ease-in-out;
+  gap: 24px;
+  padding: 0 12px;
 }
-.carousel-slide {
-  min-width: 100%;
+.embla__slide {
+  flex: 0 0 100%;
+  min-width: 0;
   display: flex;
   justify-content: center;
-  padding: 0 20px;
 }
-.carousel-slide .testimonial-card {
-  max-width: 500px;
+.embla__slide .testimonial-card {
   width: 100%;
+  max-width: 500px;
 }
 .carousel-dots {
   display: flex;
@@ -455,6 +458,22 @@ nav {
 }
 .carousel-dot:hover {
   background: var(--accent-pink);
+}
+
+/* Desktop: Show 3 cards at once */
+@media (min-width: 769px) {
+  .embla__container {
+    gap: 24px;
+  }
+  .embla__slide {
+    flex: 0 0 calc(33.333% - 16px);
+  }
+  .embla__slide .testimonial-card {
+    max-width: 100%;
+  }
+  .testimonials-grid {
+    display: none;
+  }
 }
 
 /* ── CTA SECTION ── */
@@ -536,14 +555,6 @@ footer {
   .footer-top { grid-template-columns: 1fr 1fr; }
   .cta-section { padding: 72px 20px; }
   .map-section { padding: 72px 20px; }
-  
-  /* Hide testimonials grid on mobile, show carousel */
-  .testimonials-grid {
-    display: none;
-  }
-  .testimonials-carousel {
-    display: block !important;
-  }
 }
 
 /* ── CITY TABS ── */
