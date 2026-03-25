@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#FFF8F2;
+  --blush:#FFD6D6;
+  --lavender:#E8DEFF;
+  --mint:#D4F5E9;
+  --sky:#D6EEFF;
+  --peach:#FFE8D0;
+  --lilac:#F2D6FF;
+  --yellow:#FFF3CC;
+  --brown:#6B4423;
+  --text-main:#3D2C24;
+  --text-muted:#9E7B6A;
+  --text-soft:#C4A898;
+  --accent-pink:#FF8FAB;
+  --accent-purple:#A07FDB;
+  --accent-mint:#4ECBA3;
+  --accent-sky:#5BB8F5;
+  --accent-peach:#FF9F6A;
+  --white:#ffffff;
+  --shadow:0 4px 20px rgba(107,68,35,0.08);
+  --shadow-sm:0 2px 8px rgba(107,68,35,0.06);
+}
+body{background:#FFF0E8;font-family:'Nunito',sans-serif;color:var(--text-main)}
+.page{max-width:780px;margin:0 auto;padding:24px 16px 40px}
+
+/* Header */
+.app-header{background:var(--white);border-radius:20px;padding:24px 28px;margin-bottom:20px;box-shadow:var(--shadow);display:flex;align-items:center;gap:20px}
+.logo-mark{width:56px;height:56px;background:linear-gradient(135deg,var(--blush),var(--lavender));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.app-name{font-family:'Comfortaa',cursive;font-size:28px;font-weight:700;color:var(--text-main);line-height:1}
+.app-tagline{font-size:13px;color:var(--text-muted);margin-top:4px;font-weight:600}
+.badge{background:var(--lavender);color:var(--accent-purple);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;margin-left:auto}
+
+/* Color Palette Section */
+.section-title{font-family:'Comfortaa',cursive;font-size:16px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
+.palette-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.swatch{border-radius:14px;padding:14px 12px;box-shadow:var(--shadow-sm)}
+.swatch-name{font-size:12px;font-weight:700;margin-bottom:2px}
+.swatch-hex{font-size:11px;font-weight:600;opacity:0.7;font-family:monospace}
+
+/* Typography showcase */
+.type-card{background:var(--white);border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:var(--shadow)}
+.font-row{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1.5px dashed #F0E4DA}
+.font-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.font-label{font-size:11px;font-weight:700;color:var(--text-soft);min-width:100px;text-transform:uppercase;letter-spacing:1px}
+.font-sample-display{font-family:'Comfortaa',cursive;font-size:26px;font-weight:700;color:var(--text-main);line-height:1.1}
+.font-sample-body{font-family:'Nunito',sans-serif;font-size:16px;font-weight:600;color:var(--text-main)}
+.font-sample-sub{font-family:'Nunito',sans-serif;font-size:13px;color:var(--text-muted)}
+.font-meta{font-size:11px;color:var(--accent-purple);font-weight:700;margin-left:auto;white-space:nowrap}
+
+/* Component showcase */
+.components-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+
+/* Pet Card */
+.pet-card{background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow)}
+.pet-avatar{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--peach),var(--blush));display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:12px}
+.pet-name{font-family:'Comfortaa',cursive;font-size:18px;font-weight:700;color:var(--text-main)}
+.pet-breed{font-size:12px;color:var(--text-muted);font-weight:600;margin-bottom:10px}
+.pet-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tag{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.tag-energy{background:var(--yellow);color:#B08800}
+.tag-friendly{background:var(--mint);color:#1A8060}
+.tag-verified{background:var(--lavender);color:var(--accent-purple)}
+.match-score{background:linear-gradient(135deg,var(--blush),var(--lavender));border-radius:12px;padding:8px 14px;display:flex;align-items:center;justify-content:space-between}
+.match-label{font-size:11px;font-weight:700;color:var(--text-muted)}
+.match-val{font-family:'Comfortaa',cursive;font-size:20px;font-weight:700;color:var(--accent-purple)}
+
+/* Bottom Nav */
+.bottom-nav{background:var(--white);border-radius:20px;padding:14px 10px;box-shadow:var(--shadow);display:flex;justify-content:space-around;margin-bottom:20px}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 10px;border-radius:14px;transition:background 0.2s}
+.nav-item.active{background:var(--lavender)}
+.nav-icon{font-size:20px}
+.nav-label{font-size:10px;font-weight:700;color:var(--text-muted)}
+.nav-item.active .nav-label{color:var(--accent-purple)}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.btn{padding:12px 22px;border-radius:50px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:linear-gradient(135deg,#FF8FAB,#D37DD0);color:white}
+.btn-secondary{background:linear-gradient(135deg,#A07FDB,#7B9FE8);color:white}
+.btn-ghost{background:var(--lavender);color:var(--accent-purple)}
+.btn-mint{background:var(--mint);color:#1A8060}
+
+/* Chat bubble */
+.chat-preview{background:var(--white);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:20px}
+.chat-msg{margin-bottom:10px;display:flex;gap:10px}
+.chat-msg.sent{flex-direction:row-reverse}
+.chat-bubble{padding:10px 14px;border-radius:16px;font-size:13px;font-weight:600;max-width:200px;line-height:1.5}
+.bubble-in{background:var(--lavender);color:var(--text-main);border-bottom-left-radius:4px}
+.bubble-out{background:linear-gradient(135deg,var(--blush),var(--peach));color:var(--text-main);border-bottom-right-radius:4px}
+.chat-time{font-size:10px;color:var(--text-soft);font-weight:600;align-self:flex-end;margin-bottom:4px}
+.chat-avatar{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+/* Map pin preview */
+.map-preview{background:linear-gradient(135deg,#D6F5E8,#D6EEFF);border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:20px;position:relative;overflow:hidden}
+.map-dots{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.12}
+.map-pin{display:inline-flex;align-items:center;gap:8px;background:var(--white);border-radius:50px;padding:8px 14px;box-shadow:0 4px 16px rgba(107,68,35,0.14);font-size:13px;font-weight:700;color:var(--text-main)}
+.pin-dot{width:10px;height:10px;border-radius:50%;background:var(--accent-pink)}
+.map-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* Spacing tokens */
+.spacing-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.sp-block{background:var(--lavender);border-radius:6px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px}
+.sp-label{font-size:10px;font-weight:700;color:var(--accent-purple)}
+
+/* Full mock screen */
+.phone-frame{background:var(--white);border-radius:24px;padding:20px;box-shadow:var(--shadow);border:2px solid #F0E0D8}
+.screen-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.screen-title{font-family:'Comfortaa',cursive;font-size:22px;font-weight:700}
+.avatar-stack{display:flex}
+.av{width:32px;height:32px;border-radius:10px;border:2px solid white;margin-left:-8px;font-size:18px;display:flex;align-items:center;justify-content:center;background:var(--peach)}
+.av:first-child{margin-left:0}
+
+/* Swipe card */
+.swipe-card{background:linear-gradient(160deg,var(--peach) 0%,var(--blush) 60%,var(--lavender) 100%);border-radius:24px;padding:24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
+.swipe-pet-big{font-size:72px;margin-bottom:8px}
+.swipe-name{font-family:'Comfortaa',cursive;font-size:22px;font-weight:700;color:var(--text-main)}
+.swipe-info{font-size:13px;color:var(--text-muted);font-weight:600;margin-bottom:14px}
+.swipe-actions{display:flex;gap:14px;justify-content:center}
+.swipe-btn{width:52px;height:52px;border-radius:16px;border:none;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(107,68,35,0.13)}
+.btn-pass{background:var(--sky)}
+.btn-like{background:var(--blush)}
+.btn-super{background:var(--lavender)}
+
+/* Divider */
+.divider{height:1px;background:linear-gradient(90deg,transparent,#E8D5CC,transparent);margin:20px 0}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- App Header -->
+<div class="app-header">
+  <div class="logo-mark">🐾</div>
+  <div>
+    <div class="app-name">PawMates</div>
+    <div class="app-tagline">Find the perfect friends for your pet</div>
+  </div>
+  <div class="badge">Design System</div>
+</div>
+
+<!-- Color Palette -->
+<div class="section-title">Color Palette</div>
+<div class="palette-grid">
+  <div class="swatch" style="background:#FFD6D6">
+    <div class="swatch-name" style="color:#9B3A3A">Blush Rose</div>
+    <div class="swatch-hex" style="color:#9B3A3A">#FFD6D6</div>
+  </div>
+  <div class="swatch" style="background:#E8DEFF">
+    <div class="swatch-name" style="color:#5A3FAA">Soft Lavender</div>
+    <div class="swatch-hex" style="color:#5A3FAA">#E8DEFF</div>
+  </div>
+  <div class="swatch" style="background:#D4F5E9">
+    <div class="swatch-name" style="color:#1A6B50">Pastel Mint</div>
+    <div class="swatch-hex" style="color:#1A6B50">#D4F5E9</div>
+  </div>
+  <div class="swatch" style="background:#D6EEFF">
+    <div class="swatch-name" style="color:#1A5A8A">Baby Blue</div>
+    <div class="swatch-hex" style="color:#1A5A8A">#D6EEFF</div>
+  </div>
+  <div class="swatch" style="background:#FFE8D0">
+    <div class="swatch-name" style="color:#9B5A28">Warm Peach</div>
+    <div class="swatch-hex" style="color:#9B5A28">#FFE8D0</div>
+  </div>
+  <div class="swatch" style="background:#F2D6FF">
+    <div class="swatch-name" style="color:#6A28AA">Lilac Mist</div>
+    <div class="swatch-hex" style="color:#6A28AA">#F2D6FF</div>
+  </div>
+  <div class="swatch" style="background:#FFF3CC">
+    <div class="swatch-name" style="color:#8A6A00">Butter Yellow</div>
+    <div class="swatch-hex" style="color:#8A6A00">#FFF3CC</div>
+  </div>
+  <div class="swatch" style="background:#FFF8F2">
+    <div class="swatch-name" style="color:#7A5040">Cream White</div>
+    <div class="swatch-hex" style="color:#7A5040">#FFF8F2</div>
+  </div>
+</div>
+
+<!-- Accent Colors -->
+<div class="section-title">Accent Colors</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px">
+  <div class="swatch" style="background:#FF8FAB">
+    <div class="swatch-name" style="color:#7A0030">Pink</div>
+    <div class="swatch-hex" style="color:#7A0030">#FF8FAB</div>
+  </div>
+  <div class="swatch" style="background:#A07FDB">
+    <div class="swatch-name" style="color:#3A1A7A">Purple</div>
+    <div class="swatch-hex" style="color:#3A1A7A">#A07FDB</div>
+  </div>
+  <div class="swatch" style="background:#4ECBA3">
+    <div class="swatch-name" style="color:#1A5040">Mint</div>
+    <div class="swatch-hex" style="color:#1A5040">#4ECBA3</div>
+  </div>
+  <div class="swatch" style="background:#5BB8F5">
+    <div class="swatch-name" style="color:#1A4070">Sky</div>
+    <div class="swatch-hex" style="color:#1A4070">#5BB8F5</div>
+  </div>
+  <div class="swatch" style="background:#FF9F6A">
+    <div class="swatch-name" style="color:#7A3010">Peach</div>
+    <div class="swatch-hex" style="color:#7A3010">#FF9F6A</div>
+  </div>
+</div>
+
+<!-- Text Colors -->
+<div class="section-title">Text Colors</div>
+<div style="background:white;border-radius:20px;padding:18px;box-shadow:var(--shadow);margin-bottom:20px;display:flex;gap:24px;flex-wrap:wrap">
+  <div><div style="font-size:18px;font-weight:700;color:#3D2C24">Heading Dark</div><div style="font-size:11px;font-weight:700;color:var(--text-soft);font-family:monospace">#3D2C24</div></div>
+  <div><div style="font-size:18px;font-weight:700;color:#9E7B6A">Body Muted</div><div style="font-size:11px;font-weight:700;color:var(--text-soft);font-family:monospace">#9E7B6A</div></div>
+  <div><div style="font-size:18px;font-weight:700;color:#C4A898">Hint Soft</div><div style="font-size:11px;font-weight:700;color:var(--text-soft);font-family:monospace">#C4A898</div></div>
+  <div><div style="font-size:18px;font-weight:700;color:#6B4423">Accent Brown</div><div style="font-size:11px;font-weight:700;color:var(--text-soft);font-family:monospace">#6B4423</div></div>
+</div>
+
+<!-- Typography -->
+<div class="section-title">Typography</div>
+<div class="type-card">
+  <div class="font-row">
+    <div class="font-label">Display</div>
+    <div class="font-sample-display">Comfortaa Bold</div>
+    <div class="font-meta">App Name · Headings</div>
+  </div>
+  <div class="font-row">
+    <div class="font-label">Body</div>
+    <div class="font-sample-body">Nunito SemiBold — for cards, labels, buttons</div>
+    <div class="font-meta">16px · 600</div>
+  </div>
+  <div class="font-row">
+    <div class="font-label">Caption</div>
+    <div class="font-sample-sub">Nunito Regular — for timestamps, helper text, meta info</div>
+    <div class="font-meta">12–13px · 400</div>
+  </div>
+  <div class="font-row">
+    <div class="font-label">Score / Stat</div>
+    <div style="font-family:'Comfortaa',cursive;font-size:32px;font-weight:700;color:var(--accent-purple)">92%</div>
+    <div class="font-meta">Comfortaa · numbers</div>
+  </div>
+</div>
+
+<!-- Components Row -->
+<div class="section-title">UI Components</div>
+<div class="components-grid">
+
+  <!-- Pet Card -->
+  <div class="pet-card">
+    <div class="pet-avatar">🐕</div>
+    <div class="pet-name">Buddy</div>
+    <div class="pet-breed">Golden Retriever · 2 yrs · Male</div>
+    <div class="pet-tags">
+      <span class="tag tag-energy">High Energy</span>
+      <span class="tag tag-friendly">Friendly</span>
+      <span class="tag tag-verified">✓ Verified</span>
+    </div>
+    <div class="match-score">
+      <div class="match-label">Match Score</div>
+      <div class="match-val">94%</div>
+    </div>
+  </div>
+
+  <!-- Cat Card -->
+  <div class="pet-card">
+    <div class="pet-avatar" style="background:linear-gradient(135deg,var(--lavender),var(--sky))">🐈</div>
+    <div class="pet-name">Luna</div>
+    <div class="pet-breed">Persian Cat · 3 yrs · Female</div>
+    <div class="pet-tags">
+      <span class="tag" style="background:var(--lilac);color:#6A28AA">Calm</span>
+      <span class="tag tag-friendly">Playful</span>
+      <span class="tag tag-verified">✓ Verified</span>
+    </div>
+    <div class="match-score" style="background:linear-gradient(135deg,var(--lavender),var(--sky))">
+      <div class="match-label">Match Score</div>
+      <div class="match-val" style="color:var(--accent-sky)">88%</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Buttons -->
+<div class="section-title">Buttons</div>
+<div class="btn-row">
+  <button class="btn btn-primary">🐾 Find Playmates</button>
+  <button class="btn btn-secondary">📍 See Nearby</button>
+  <button class="btn btn-ghost">💬 Message</button>
+  <button class="btn btn-mint">✓ Book Playdate</button>
+</div>
+
+<!-- Swipe Screen Mock -->
+<div class="divider"></div>
+<div class="section-title">Swipe Screen Preview</div>
+<div class="phone-frame">
+  <div class="screen-header">
+    <div class="screen-title">Discover 🐾</div>
+    <div class="avatar-stack">
+      <div class="av">🐕</div>
+      <div class="av" style="background:var(--lavender)">🐈</div>
+      <div class="av" style="background:var(--mint)">🐩</div>
+    </div>
+  </div>
+  <div class="swipe-card">
+    <div class="swipe-pet-big">🐶</div>
+    <div class="swipe-name">Max</div>
+    <div class="swipe-info">Husky · 1.5 yrs · Near F9 Park</div>
+    <div class="pet-tags" style="justify-content:center;margin-bottom:0">
+      <span class="tag tag-energy">Playful</span>
+      <span class="tag tag-verified">✓ Vaccinated</span>
+    </div>
+  </div>
+  <div class="swipe-actions">
+    <button class="swipe-btn btn-pass">✕</button>
+    <button class="swipe-btn btn-super">⭐</button>
+    <button class="swipe-btn btn-like">♥</button>
+  </div>
+</div>
+
+<!-- Chat Preview -->
+<div class="divider"></div>
+<div class="section-title">Chat Preview</div>
+<div class="chat-preview">
+  <div class="chat-msg">
+    <div class="chat-avatar" style="background:var(--peach)">🐕</div>
+    <div>
+      <div class="chat-bubble bubble-in">Hey! Want to bring Buddy to F9 Park tomorrow? 🐾</div>
+    </div>
+    <div class="chat-time">2:14 pm</div>
+  </div>
+  <div class="chat-msg sent">
+    <div class="chat-avatar" style="background:var(--lavender)">🐈</div>
+    <div>
+      <div class="chat-bubble bubble-out">Yes! Luna would love that 🎉 Around 5pm?</div>
+    </div>
+    <div class="chat-time">2:16 pm</div>
+  </div>
+</div>
+
+<!-- Live Map Preview -->
+<div class="section-title">Live Pet Map Pill</div>
+<div class="map-preview">
+  <div class="map-row" style="justify-content:center;flex-wrap:wrap;gap:10px;position:relative;z-index:1">
+    <div class="map-pin"><span class="pin-dot"></span>F9 Park — 8 dogs nearby</div>
+    <div class="map-pin" style="--pin-color:var(--accent-mint)"><span class="pin-dot" style="background:var(--accent-mint)"></span>Lake View — 4 pets</div>
+    <div class="map-pin"><span class="pin-dot" style="background:var(--accent-sky)"></span>Margalla Trail — 3 dogs</div>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<div class="divider"></div>
+<div class="section-title">Bottom Navigation</div>
+<div class="bottom-nav">
+  <div class="nav-item"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+  <div class="nav-item"><div class="nav-icon">🐾</div><div class="nav-label">Discover</div></div>
+  <div class="nav-item active"><div class="nav-icon">📍</div><div class="nav-label">Map</div></div>
+  <div class="nav-item"><div class="nav-icon">💬</div><div class="nav-label">Chat</div></div>
+  <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Profile</div></div>
+</div>
+
+</div>
+</body>
+</html>
