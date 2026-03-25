@@ -348,28 +348,34 @@ nav {
 
 /* ── MAP SECTION ── */
 .map-section {
-  background: linear-gradient(135deg, var(--text-main) 0%, #5C3D2E 100%);
+  background: linear-gradient(135deg, var(--lavender) 0%, var(--mint) 50%, var(--sky) 100%);
   padding: 100px 40px; position: relative; overflow: hidden;
 }
 .map-section::before {
   content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(160,127,219,0.2) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 70% 50%, rgba(160,127,219,0.15) 0%, transparent 60%);
 }
-.map-section .section-label { color: var(--accent-pink); }
-.map-section .section-title { color: white; }
-.map-section .section-sub { color: var(--text-soft); }
+.map-section .section-label { color: var(--accent-purple); }
+.map-section .section-title { color: var(--text-main); }
+.map-section .section-sub { color: var(--text-muted); }
 
 .map-pins-grid { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .map-pin-card {
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.8);
   border-radius: 20px; padding: 20px 28px;
   display: flex; align-items: center; gap: 14px;
-  backdrop-filter: blur(8px); transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s;
+  box-shadow: 0 4px 16px rgba(160,127,219,0.1);
 }
-.map-pin-card:hover { background: rgba(255,255,255,0.14); }
+.map-pin-card:hover { 
+  background: rgba(255,255,255,0.85);
+  transform: translateY(-3px);
+}
 .pin-circle { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-.map-pin-name { font-family: var(--display); font-size: 16px; font-weight: 700; color: white; }
-.map-pin-count { font-size: 13px; font-weight: 600; color: var(--text-soft); margin-top: 2px; }
+.map-pin-name { font-family: var(--display); font-size: 16px; font-weight: 700; color: var(--text-main); }
+.map-pin-count { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-top: 2px; }
 
 /* Mobile responsive for city pins - smaller text */
 @media (max-width: 768px) {
@@ -477,7 +483,9 @@ nav {
 
 /* ── FOOTER ── */
 footer {
-  background: var(--brown-dark); padding: 60px 40px 32px;
+  background: var(--cream-light);
+  padding: 60px 40px 32px;
+  border-top: 1px solid var(--blush);
 }
 .footer-inner { max-width: 1100px; margin: 0 auto; }
 .footer-top {
@@ -487,30 +495,30 @@ footer {
 .footer-brand {}
 .footer-logo {
   font-family: var(--display); font-size: 28px; font-weight: 700;
-  color: white; display: flex; align-items: center; gap: 8px;
+  color: var(--text-main); display: flex; align-items: center; gap: 8px;
   margin-bottom: 14px;
 }
-.footer-tagline { font-size: 14px; font-weight: 600; color: var(--text-soft); line-height: 1.7; max-width: 240px; }
-.footer-col-title { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 16px; }
+.footer-tagline { font-size: 14px; font-weight: 600; color: var(--text-muted); line-height: 1.7; max-width: 240px; }
+.footer-col-title { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent-purple); margin-bottom: 16px; }
 .footer-col a {
-  display: block; font-size: 14px; font-weight: 600; color: #7A6058;
+  display: block; font-size: 14px; font-weight: 600; color: var(--text-muted);
   text-decoration: none; margin-bottom: 10px; transition: color 0.2s;
 }
 .footer-col a:hover { color: var(--accent-pink); }
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.06); padding-top: 28px;
+  border-top: 1px solid var(--blush); padding-top: 28px;
   display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
 }
-.footer-copy { font-size: 13px; font-weight: 600; color: #7A6058; }
+.footer-copy { font-size: 13px; font-weight: 600; color: var(--text-muted); }
 .footer-social { display: flex; gap: 12px; }
 .social-btn {
   width: 36px; height: 36px; border-radius: 10px;
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  background: var(--lavender); border: none;
   display: flex; align-items: center; justify-content: center;
   font-size: 16px; text-decoration: none;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s;
 }
-.social-btn:hover { background: rgba(255,143,171,0.2); }
+.social-btn:hover { background: var(--accent-pink); transform: translateY(-2px); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
