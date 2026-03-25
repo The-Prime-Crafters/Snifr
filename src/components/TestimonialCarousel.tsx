@@ -57,7 +57,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
 
     const autoplay = setInterval(() => {
       emblaApi.scrollNext();
-    }, 3000);
+    }, 1200);
 
     return () => clearInterval(autoplay);
   }, [emblaApi]);
