@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
+import WaitingList from "@/components/WaitingList";
 
 // Counter animation component
 function Counter({ end, suffix = "", duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
@@ -630,6 +631,9 @@ export default function Home() {
           </a>
         </div>
       </section>
+
+      {/* WAITING LIST */}
+      <WaitingList />
 
       {/* FOOTER */}
       <footer>
