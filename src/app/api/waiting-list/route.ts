@@ -120,12 +120,29 @@ export async function POST(request: NextRequest) {
     // Send confirmation email if SMTP is configured
     if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
       try {
+        console.log("📧 Attempting to send email to:", normalizedEmail);
+        console.log("SMTP Host:", process.env.SMTP_HOST);
+        console.log("SMTP User:", process.env.SMTP_USER);
+        
         const transporter = createTransporter();
 
-        await transporter.sendMail({
-          from: `"Snifr" <${process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER}>`,
+        // Verify transporter configuration
+        await new Promise((resolve, reject) => {
+          transporter.verify((error, success) => {
+            if (error) {
+              console.error("SMTP verification failed:", error);
+              reject(error);
+            } else {
+              console.log("SMTP connection successful:", success);
+              resolve(success);
+            }
+          });
+        });
+
+        const emailResult = await transporter.sendMail({
+          from: `"Snifr - Pet Playdate App" <${process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER}>`,
           to: normalizedEmail,
-          subject: "🐾 Welcome to Snifr's Waiting List!",
+          subject: "🐾 Welcome to Snifr's Waiting List - You're In!",
           html: `
             <!DOCTYPE html>
             <html>
@@ -157,6 +174,8 @@ export async function POST(request: NextRequest) {
                   .stat { text-align: center; }
                   .stat-num { font-family: 'Comfortaa', cursive; font-size: 24px; font-weight: 700; color: #A07FDB; }
                   .stat-label { font-size: 12px; color: #9E7B6A; margin-top: 4px; }
+                  .highlight-box { background: linear-gradient(135deg, #FFF3CC, #FFE8D0); border-radius: 16px; padding: 20px; margin: 24px 0; border: 2px dashed #FF9F6A; }
+                  .highlight-box p { margin: 0; font-weight: 700; color: #3D2C24; }
                 </style>
               </head>
               <body>
@@ -164,7 +183,7 @@ export async function POST(request: NextRequest) {
                   <div class="header">
                     <div class="logo">🐾</div>
                     <h1>Welcome to Snifr!</h1>
-                    <p>You're on the waiting list</p>
+                    <p>You're officially on the waiting list</p>
                   </div>
                   <div class="content">
                     <h2>Hey there! 👋</h2>
@@ -177,6 +196,10 @@ export async function POST(request: NextRequest) {
                       in your area!
                     </p>
                     
+                    <div class="highlight-box">
+                      <p>🎉 You're subscriber #${newEntry.id ? 'one of the first' : 'early'}!</p>
+                    </div>
+
                     <div class="stats">
                       <div class="stat">
                         <div class="stat-num">2.4k+</div>
@@ -195,39 +218,31 @@ export async function POST(request: NextRequest) {
                     <div class="perks">
                       <div class="perk">
                         <span class="perk-icon">🎁</span>
-                        <span class="perk-text">Early Bird Access - Be first to try Snifr</span>
+                        <span class="perk-text"><strong>Early Bird Access</strong> - Be first to try Snifr</span>
                       </div>
                       <div class="perk">
                         <span class="perk-icon">🏆</span>
-                        <span class="perk-text">Founder's Badge - Special profile badge</span>
+                        <span class="perk-text"><strong>Founder's Badge</strong> - Special profile badge</span>
                       </div>
                       <div class="perk">
                         <span class="perk-icon">💎</span>
-                        <span class="perk-text">Free Premium - 3 months on us</span>
+                        <span class="perk-text"><strong>Free Premium</strong> - 3 months on us</span>
                       </div>
                     </div>
 
                     <div class="divider"></div>
 
-                    <p>
-                      In the meantime, follow us on social media for updates, pet care tips, and 
-                      sneak peeks of what we're building!
-                    </p>
                     
-                    <div style="text-align: center;">
-                      <a href="https://snifr.app" class="cta-button">Visit Our Website</a>
-                    </div>
                   </div>
                   <div class="footer">
                     <p>© 2026 Snifr · Find the perfect friends for your pet</p>
-                    <div class="social">
-                      <a href="#">📸</a>
-                      <a href="#">🐦</a>
-                      <a href="#">📱</a>
-                    </div>
-                    <p style="margin-top: 16px; font-size: 11px;">
-                      You received this email because you signed up for Snifr's waiting list.<br>
-                      We'll only send you important updates about our launch.
+                    
+                    <p style="margin-top: 16px; font-size: 11px; color: #C4A898;">
+                      You received this email because you signed up for Snifr's waiting list at snifr<br>
+                      We'll only send you important updates about our launch. No spam, ever! 🙏
+                    </p>
+                    <p style="margin-top: 8px; font-size: 11px; color: #C4A898;">
+                      Subscribed: ${new Date().toLocaleString()} 
                     </p>
                   </div>
                 </div>
@@ -261,24 +276,30 @@ Visit our website: https://snifr.app
 
 ---
 You received this email because you signed up for Snifr's waiting list.
-We'll only send you important updates about our launch.
+We'll only send you important updates about our launch. No spam, ever!
           `,
         });
 
+        console.log("✅ Email sent successfully! Message ID:", emailResult.messageId);
+
         // Update status to notified
         await sql`
-          UPDATE waiting_list 
-          SET status = 'notified' 
+          UPDATE waiting_list
+          SET status = 'notified'
           WHERE id = ${newEntry.id}
         `;
 
-        console.log(`✅ Welcome email sent to: ${normalizedEmail}`);
+        console.log(`✅ Database updated - status set to 'notified' for: ${normalizedEmail}`);
       } catch (emailError) {
-        console.error("Email sending failed:", emailError);
+        console.error("❌ Email sending failed:", emailError);
+        console.error("Error details:", JSON.stringify(emailError, null, 2));
         // Don't fail the request if email fails - user is still in DB
       }
     } else {
-      console.log("⚠️ SMTP not configured. Email not sent to:", normalizedEmail);
+      console.log("⚠️ SMTP credentials not fully configured. Email not sent.");
+      console.log("SMTP_HOST:", !!process.env.SMTP_HOST);
+      console.log("SMTP_USER:", !!process.env.SMTP_USER);
+      console.log("SMTP_PASS:", !!process.env.SMTP_PASS);
     }
 
     return NextResponse.json(
